@@ -1,0 +1,97 @@
+<div class="container mt-5" style="max-width: 600px">
+    <h1 class="text-center mb-4 fw-bold">Créer un compte</h1>
+  
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="form">
+      <div class="row">
+        <div class="col-6">
+          <!-- Nom complet -->
+          <div class="form-group mb-3">
+            <label>Nom complet</label>
+            <input type="text" formControlName="name" class="form-control" />
+            <div
+              *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched"
+              class="error text-danger"
+            >
+              Le nom est requis.
+            </div>
+          </div>
+  
+          <!-- Email -->
+          <div class="form-group mb-3">
+            <label>Email</label>
+            <input type="email" formControlName="email" class="form-control" />
+            <div
+              *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched"
+              class="error text-danger"
+            >
+              Email invalide.
+            </div>
+          </div>
+        </div>
+  
+        <div class="col-6">
+          <!-- Mot de passe avec icônes -->
+          <div class="form-group mb-3 password-wrapper">
+            <label>Mot de passe</label>
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              formControlName="password"
+              class="form-control pe-5"
+            />
+            <!-- bouton afficher/masquer -->
+            <button
+              type="button"
+              class="btn-eye"
+              (click)="toggleShowPassword()"
+              [attr.aria-label]="showPassword ? 'Masquer mot de passe' : 'Afficher mot de passe'"
+            >
+              {{ showPassword ? '🙈' : '👁️' }}
+            </button>
+            <!-- bouton générer -->
+            <button
+              type="button"
+              class="btn-generate"
+              (click)="generatePassword()"
+              aria-label="Générer mot de passe"
+            >
+              🔄
+            </button>
+            <div
+              *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched"
+              class="error text-danger"
+            >
+              Mot de passe requis (min. 8&nbsp;caractères).
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <button
+        [disabled]="registerForm.invalid || loading"
+        class="btn-submit w-100 mt-3"
+      >
+        {{ loading ? '…' : "S'inscrire" }}
+      </button>
+  
+      <div *ngIf="error" class="error mt-3 text-danger">{{ error }}</div>
+    </form>
+  
+    <!-- Affichage du QR-Code et de la clé MFA -->
+    <div *ngIf="qrCode" class="qr-container mt-4 text-center">
+      <p>Scannez ce QR-code dans Google Authenticator :</p>
+      <img [src]="qrCode" alt="QR Code MFA" class="qr-image mb-2" />
+      <p>
+        Clé secrète (au cas où) :
+        <code>{{ mfaSecret }}</code>
+      </p>
+      <button class="btn btn-link" (click)="goToLogin()">
+        Se connecter avec 2FA
+      </button>
+    </div>
+  
+    <p class="text-center mt-3">
+      Déjà un compte ?
+      <a (click)="goToLogin()" class="link">Connectez-vous ici</a>
+    </p>
+  </div>
+  

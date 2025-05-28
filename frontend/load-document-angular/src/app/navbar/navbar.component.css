@@ -1,0 +1,11 @@
+.nav-link:hover {
+  color: #0d6efd !important; /* Bootstrap primary blue */
+  text-decoration: underline;
+  transition: color 0.3s ease;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+  border-color: #bd2130;
+  transition: background-color 0.3s ease;
+}

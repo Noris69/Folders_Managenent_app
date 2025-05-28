@@ -1,0 +1,69 @@
+<div class="container">
+    <h1 class="text-center mb-4 fw-bold">Connexion</h1>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form">
+      <!-- Étape 1 : email + mot de passe -->
+      <ng-container *ngIf="loginStep === 1">
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" formControlName="email" />
+          <div
+            *ngIf="
+              loginForm.get('email')?.invalid &&
+              loginForm.get('email')?.touched
+            "
+            class="error"
+          >
+            Email invalide.
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label>Mot de passe</label>
+          <input type="password" formControlName="password" />
+          <div
+            *ngIf="
+              loginForm.get('password')?.invalid &&
+              loginForm.get('password')?.touched
+            "
+            class="error"
+          >
+            Mot de passe requis.
+          </div>
+        </div>
+      </ng-container>
+  
+      <!-- Étape 2 : Code 2FA -->
+      <ng-container *ngIf="loginStep === 2">
+        <p class="text-center text-info">
+          Entrez votre code 2FA généré par Google Authenticator
+        </p>
+        <div class="form-group">
+          <label>Code 2FA</label>
+          <input type="text" formControlName="totp" maxlength="6" />
+          <div
+            *ngIf="
+              loginForm.get('totp')?.invalid && loginForm.get('totp')?.touched
+            "
+            class="error"
+          >
+            Code à 6 chiffres requis.
+          </div>
+        </div>
+      </ng-container>
+  
+      <button
+        [disabled]="loginForm.invalid || loading"
+        class="btn-submit w-100 mt-3"
+      >
+        {{ loading ? '…' : loginStep === 1 ? 'Suivant' : 'Se connecter' }}
+      </button>
+  
+      <div *ngIf="error" class="error mt-3">{{ error }}</div>
+    </form>
+  
+    <p class="text-center">
+      Pas encore de compte ?
+      <a routerLink="/register" class="link">Inscrivez-vous ici</a>
+    </p>
+  </div>
+  
