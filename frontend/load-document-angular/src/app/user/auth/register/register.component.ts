@@ -26,7 +26,6 @@ interface RegisterResponse {
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    RouterLink,
     HttpClientModule
   ],
   templateUrl: './register.component.html',
